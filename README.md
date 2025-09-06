@@ -234,3 +234,66 @@ For each Gemini CLI test run:
 - Use `git diff` and DB schema comparison to evaluate planning quality.
 
 ---
+
+## 11. What to Evaluate After Each Run (Success & Quality)
+
+After you kick off Gemini CLI and the run finishes (or pauses for approval), verify success with these checks. Treat them as a pass/fail + quality scoring rubric so you can compare branches (stock vs custom vs sequential-thinking).
+
+### 11.1 Quick Functional Checks (must pass)
+- **Boots:** `pnpm dev` → visit http://localhost:3000 without errors.
+- **Create:** Add a bookmark via the UI form → it appears in the list.
+- **Rate limit:** Create >5 bookmarks in ≤60s → receive 429 in API/UI; future attempts respect `Retry-After`.
+- **Top list cache:** Hit `GET /api/bookmarks/top` twice in <60s → first call misses cache, second call hits cache.
+  - CLI check:
+    ```bash
+    curl -i http://localhost:3000/api/bookmarks/top
+    curl -i http://localhost:3000/api/bookmarks/top
+    ```
+- **Invalidation:** After creating a new bookmark, the `/top` endpoint reflects updated results within the TTL or after cache bust.
+- **Auth guard:** Unauthenticated POST to `/api/bookmarks` returns 401.
+
+### 11.2 Tests (must pass)
+- **Unit tests:** `pnpm test` (rate limiter core, cache invalidation, input validation).
+- **E2E tests:** `pnpm e2e` (Playwright).
+  - Should cover login → create → list; and the 429 path.
+
+### 11.3 Schema & Migrations (consistency)
+- Prisma files exist and make sense:
+  - `prisma/schema.prisma`
+  - `prisma/migrations/*` (if migrate flow used)
+- DB actually contains the tables:
+  ```bash
+  pnpm prisma studio
+  # or psql:
+  docker exec -it pg psql -U postgres -d <your_db> -c '\dt'
+  ```
+
+### 11.4 Logging & Observability (basic)
+- Server logs include request id, user id (when authenticated), operation, latency.
+- Rate-limit 429s are clearly logged.
+
+### 11.5 Code Quality (subjective but important)
+Score each item 1–5:
+- **Plan quality**: clear ≤7 steps; risks called out; “Done means” checklist present.
+- **Grounding**: cited official docs before using unfamiliar APIs (via `fetch`).
+- **Diff hygiene**: small, reversible commits; minimal unrelated edits.
+- **Architecture**: DB models map cleanly to feature; rate limiter design reasonable.
+- **Tests**: meaningful assertions; selectors stable (role/name); minimal flakes.
+- **Security**: secrets only via env; 401 for unauth; input validation present.
+- **Docs**: README/CHANGELOG/DECISIONS updated with what changed and why.
+
+> Tip: Keep a simple score sheet per branch (sum of 7×(1–5)). Higher is better.
+
+### 11.6 Useful one-liners
+```bash
+# Show 429 quickly (assuming auth handled by your app)
+autocannon -d 10 -c 5 -p 0 http://localhost:3000/api/bookmarks -m POST -b '{"url":"https://example.com"}' -H content-type:application/json
+
+# Confirm Redis keys changing (optional)
+redis-cli -u "$REDIS_URL" KEYS "*"
+
+# Confirm rate-limit headers
+curl -i -X POST http://localhost:3000/api/bookmarks -H "content-type: application/json" -d '{"url":"https://example.com"}'
+```
+
+---
