@@ -221,8 +221,8 @@ For each Gemini CLI test run:
 6. Let Gemini CLI handle migrations, API routes, caching, and tests.
 7. Compare results across branches via:
    ```bash
-   git diff main
-   ```
+git diff main
+```
 
 ---
 
@@ -293,7 +293,7 @@ autocannon -d 10 -c 5 -p 0 http://localhost:3000/api/bookmarks -m POST -b '{"url
 redis-cli -u "$REDIS_URL" KEYS "*"
 
 # Confirm rate-limit headers
-curl -i -X POST http://localhost:3000/api/bookmarks -H "content-type: application/json" -d '{"url":"https://example.com"}'
+curl -i -X POST http://localhost:3000/api/bookmarks -H "content-type:application/json" -d '{"url":"https://example.com"}'
 ```
 
 ---
@@ -348,4 +348,4 @@ DOCS
 - Rate limiting: library or simple in-DB/Redis approach; justify in DECISIONS.md.
 
 BEGIN
-```
+
