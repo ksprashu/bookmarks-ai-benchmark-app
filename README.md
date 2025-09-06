@@ -297,3 +297,47 @@ curl -i -X POST http://localhost:3000/api/bookmarks -H "content-type: applicatio
 ```
 
 ---
+
+## 12. Prompt to test
+
+```markdown
+=== GOAL ===
+Build a working “Rate-Limited Bookmarks” feature in this Next.js app with:
+- Postgres persistence (Prisma)
+- Redis caching for “top bookmarks” with invalidation
+- Per-user rate limiting on bookmark creation
+- Minimal Next.js UI to create and list bookmarks
+- Unit tests (Vitest) + E2E tests (Playwright)
+- Short docs updates (README/CHANGELOG/DECISIONS)
+
+Use environment variables from `.env.local`. Do not hardcode secrets. Assume Postgres/Redis are running and the database for this branch already exists.
+
+=== ACCEPTANCE CRITERIA (DONE MEANS) ===
+ARCHITECTURE & CODE
+1) **Auth guard**: Unauthenticated POST /api/bookmarks returns 401.
+2) **DB schema** (Prisma): `User(id, email, name?, createdAt)` and `Bookmark(id, userId, url, title, createdAt)`.
+3) **Create**: `POST /api/bookmarks { url, title? }` → 201 with JSON record; validates URL.
+4) **List**: `GET /api/bookmarks` returns current user’s bookmarks, newest first.
+5) **Top list (cached)**: `GET /api/bookmarks/top` uses Redis with TTL=60s; cache invalidated on create.
+6) **Rate limit**: per-user N/min (N=5). On exceed, return 429 + `Retry-After`.
+7) **Feature flag**: `CACHE_ENABLED=true|false` — when false, skip all Redis code paths cleanly.
+8) **Observability**: structured logs include request_id, user_id, op, latency.
+
+TESTS & CI
+9) **Unit tests (Vitest)**: at least 3 — rate limiter logic; cache invalidation path; input validation.
+10) **Playwright E2E**:
+    - Login → add bookmark → see it listed.
+    - Add until limit → expect 429 and `Retry-After`.
+11) **Package scripts** exist: `test`, `e2e`, `lint/format` (use Biome if present).
+
+DOCS
+12) **README** updated with run instructions.
+13) **CHANGELOG** entry describing this feature.
+14) **DECISIONS.md** with chosen rate-limit strategy (token bucket vs sliding window), cache policy, and trade-offs.
+
+=== CONSTRAINTS & TOOLS ===
+- Use **Prisma** with the existing `DATABASE_URL`. Generate schema/migrations and Prisma Client.
+- Use **Redis** from `REDIS_URL`. TTL 60s, invalidate on create.
+- UI: minimal Next.js page with form (add bookmark) and list view; Tailwind optional.
+- Rate limiting: library or simple in-DB/Redis approach; justify in DECISIONS.md.
+```
