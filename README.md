@@ -312,6 +312,12 @@ Build a working “Rate-Limited Bookmarks” feature in this Next.js app with:
 
 Use environment variables from `.env.local`. Do not hardcode secrets. Assume Postgres/Redis are running and the database for this branch already exists.
 
+SAFETY & INFRA:
+- `.env.local` is READ-ONLY. Never modify or regenerate it. If a change is necessary, write `.env.local.patch` and pause.
+- Use the provided `DATABASE_URL` and `REDIS_URL` exactly. Do not create new databases or change Redis DB index.
+- Run Playwright headless (`use.headless=true`). Do not open a browser or use `--ui`.
+- Before any destructive operation (env edits, DB drops, force pushes), STOP and ask for approval.
+
 === ACCEPTANCE CRITERIA (DONE MEANS) ===
 ARCHITECTURE & CODE
 1) **Auth guard**: Unauthenticated POST /api/bookmarks returns 401.
@@ -340,4 +346,6 @@ DOCS
 - Use **Redis** from `REDIS_URL`. TTL 60s, invalidate on create.
 - UI: minimal Next.js page with form (add bookmark) and list view; Tailwind optional.
 - Rate limiting: library or simple in-DB/Redis approach; justify in DECISIONS.md.
+
+BEGIN
 ```
