@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:unit": "vitest run",
+    "e2e": "next build --turbopack && playwright test --reporter=line",
+    "format": "eslint --fix ."
   },
   "dependencies": {
     "@prisma/client": "^6.15.0",

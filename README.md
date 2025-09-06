@@ -152,6 +152,18 @@ pnpm dev
 
 Visit: [http://localhost:3000](http://localhost:3000)
 
+### Rate-Limited Bookmarks Feature
+- Login with your email (client-side session cookie).
+- Create bookmarks via the form; per-user limit of 5/min.
+- Top bookmarks endpoint caches for 60s in Redis and invalidates on create.
+- Feature flag: set `CACHE_ENABLED=false` to disable Redis cleanly.
+
+API endpoints:
+- `POST /api/auth/login { email }` → sets session cookie
+- `POST /api/bookmarks { url, title? }` → 201 with record; 401 if unauth
+- `GET /api/bookmarks` → current user’s bookmarks, newest first
+- `GET /api/bookmarks/top` → top 10 newest (cached 60s)
+
 ---
 
 ## 7. Running Tests
@@ -165,8 +177,12 @@ npx playwright install --with-deps
 ### Run Tests
 
 ```bash
-pnpm test
-pnpm e2e
+pnpm test       # unit tests (Vitest)
+pnpm e2e        # E2E tests (Playwright, headless)
+
+Notes:
+- Requires Postgres and Redis running; uses `.env.local` for `DATABASE_URL`, `REDIS_URL`.
+- Do not edit `.env.local` via automation; if changes needed, write `.env.local.patch`.
 ```
 
 ---
