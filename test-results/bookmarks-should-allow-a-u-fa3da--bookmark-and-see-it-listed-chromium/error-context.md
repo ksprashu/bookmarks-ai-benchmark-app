@@ -1,0 +1,150 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - button "Sign in with GitHub" [ref=e3]
+  - generic [active]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - generic [ref=e8]:
+          - navigation [ref=e9]:
+            - button "previous" [disabled] [ref=e10]:
+              - img "previous" [ref=e11]
+            - generic [ref=e13]:
+              - generic [ref=e14]: 1/
+              - generic [ref=e15]: "1"
+            - button "next" [disabled] [ref=e16]:
+              - img "next" [ref=e17]
+          - img
+        - generic [ref=e19]:
+          - generic [ref=e20]:
+            - img [ref=e21]
+            - generic "Latest available version is detected (15.5.2)." [ref=e23]: Next.js 15.5.2
+            - generic [ref=e24]: Turbopack
+          - img
+      - dialog "Build Error" [ref=e26]:
+        - generic [ref=e29]:
+          - generic [ref=e30]:
+            - generic [ref=e31]:
+              - generic [ref=e33]: Build Error
+              - generic [ref=e34]:
+                - button "Copy Error Info" [ref=e35] [cursor=pointer]:
+                  - img [ref=e36] [cursor=pointer]
+                - link "Go to related documentation" [ref=e38] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/messages/module-not-found
+                  - img [ref=e39] [cursor=pointer]
+                - link "Learn more about enabling Node.js inspector for server code with Chrome DevTools" [ref=e41] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/app/building-your-application/configuring/debugging#server-side-code
+                  - img [ref=e42] [cursor=pointer]
+            - paragraph [ref=e51]: "Module not found: Can't resolve '@auth/prisma-adapter'"
+          - generic [ref=e53]:
+            - generic [ref=e55]:
+              - img [ref=e57]
+              - generic [ref=e61]: ./code/github/bookmarks-benchmark-app/src/app/api/auth/[...nextauth]/route.ts (4:1)
+              - button "Open in editor" [ref=e62] [cursor=pointer]:
+                - img [ref=e64] [cursor=pointer]
+            - generic [ref=e67]:
+              - generic [ref=e68]: Module not found
+              - generic [ref=e69]: ": Can't resolve"
+              - generic [ref=e70]: "'@auth/prisma-adapter'"
+              - generic [ref=e72]: 2 |
+              - generic [ref=e74]: import
+              - generic [ref=e76]: NextAuth
+              - generic [ref=e78]: from
+              - generic [ref=e80]: "\"next-auth\""
+              - generic [ref=e82]: 3 |
+              - generic [ref=e84]: import
+              - generic [ref=e86]: GithubProvider
+              - generic [ref=e88]: from
+              - generic [ref=e90]: "\"next-auth/providers/github\""
+              - generic [ref=e91]: ">"
+              - generic [ref=e92]: 4 |
+              - generic [ref=e94]: import
+              - generic [ref=e95]: "{"
+              - generic [ref=e96]: PrismaAdapter
+              - generic [ref=e97]: "}"
+              - generic [ref=e98]: from
+              - generic [ref=e100]: "\"@auth/prisma-adapter\""
+              - generic [ref=e102]: "|"
+              - generic [ref=e104]: ^
+              - generic [ref=e105]: ^
+              - generic [ref=e106]: ^
+              - generic [ref=e107]: ^
+              - generic [ref=e108]: ^
+              - generic [ref=e109]: ^
+              - generic [ref=e110]: ^
+              - generic [ref=e111]: ^
+              - generic [ref=e112]: ^
+              - generic [ref=e113]: ^
+              - generic [ref=e114]: ^
+              - generic [ref=e115]: ^
+              - generic [ref=e116]: ^
+              - generic [ref=e117]: ^
+              - generic [ref=e118]: ^
+              - generic [ref=e119]: ^
+              - generic [ref=e120]: ^
+              - generic [ref=e121]: ^
+              - generic [ref=e122]: ^
+              - generic [ref=e123]: ^
+              - generic [ref=e124]: ^
+              - generic [ref=e125]: ^
+              - generic [ref=e126]: ^
+              - generic [ref=e127]: ^
+              - generic [ref=e128]: ^
+              - generic [ref=e129]: ^
+              - generic [ref=e130]: ^
+              - generic [ref=e131]: ^
+              - generic [ref=e132]: ^
+              - generic [ref=e133]: ^
+              - generic [ref=e134]: ^
+              - generic [ref=e135]: ^
+              - generic [ref=e136]: ^
+              - generic [ref=e137]: ^
+              - generic [ref=e138]: ^
+              - generic [ref=e139]: ^
+              - generic [ref=e140]: ^
+              - generic [ref=e141]: ^
+              - generic [ref=e142]: ^
+              - generic [ref=e143]: ^
+              - generic [ref=e144]: ^
+              - generic [ref=e145]: ^
+              - generic [ref=e146]: ^
+              - generic [ref=e147]: ^
+              - generic [ref=e148]: ^
+              - generic [ref=e149]: ^
+              - generic [ref=e150]: ^
+              - generic [ref=e151]: ^
+              - generic [ref=e152]: ^
+              - generic [ref=e153]: ^
+              - generic [ref=e154]: ^
+              - generic [ref=e155]: ^
+              - generic [ref=e157]: 5 |
+              - generic [ref=e159]: import
+              - generic [ref=e160]: "{"
+              - generic [ref=e161]: PrismaClient
+              - generic [ref=e162]: "}"
+              - generic [ref=e163]: from
+              - generic [ref=e165]: "\"@prisma/client\""
+              - generic [ref=e167]: 6 |
+              - generic [ref=e169]: 7 |
+              - generic [ref=e171]: const
+              - generic [ref=e172]: prisma
+              - generic [ref=e173]: =
+              - generic [ref=e175]: new
+              - generic [ref=e177]: PrismaClient
+              - generic [ref=e178]: ()
+              - link "https://nextjs.org/docs/messages/module-not-found" [ref=e180] [cursor=pointer]:
+                - /url: https://nextjs.org/docs/messages/module-not-found
+        - generic [ref=e181]:
+          - generic [ref=e182]: "1"
+          - generic [ref=e183]: "2"
+    - generic [ref=e188] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e189] [cursor=pointer]:
+        - img [ref=e190] [cursor=pointer]
+      - button "Open issues overlay" [ref=e194] [cursor=pointer]:
+        - generic [ref=e195] [cursor=pointer]:
+          - generic [ref=e196] [cursor=pointer]: "0"
+          - generic [ref=e197] [cursor=pointer]: "1"
+        - generic [ref=e198] [cursor=pointer]: Issue
+  - alert [ref=e199]
+```
