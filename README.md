@@ -298,7 +298,82 @@ curl -i -X POST http://localhost:3000/api/bookmarks -H "content-type: applicatio
 
 ---
 
-## 12. Prompt to test
+## 12. Rate-Limited Bookmarks Implementation
+
+This section describes the implemented rate-limited bookmarks feature.
+
+### 12.1 Running the Implementation
+
+#### Prerequisites
+- Postgres running on `localhost:5432`
+- Redis running on `localhost:6379`
+- Database created matching your `DATABASE_URL`
+
+#### Quick Start
+```bash
+# Install dependencies
+npm install
+
+# Generate Prisma client
+npm run prisma:generate
+
+# Start development server
+npm run dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000) to use the bookmarks app.
+
+#### Environment Variables
+The app uses the following environment variables from `.env.local`:
+- `DATABASE_URL`: Postgres connection string
+- `REDIS_URL`: Redis connection string  
+- `CACHE_ENABLED`: Enable/disable Redis caching (`true`/`false`)
+- Auth secrets for demo authentication
+
+### 12.2 API Endpoints
+
+- `POST /api/bookmarks` - Create a bookmark (rate limited, auth required)
+- `GET /api/bookmarks` - List user's bookmarks (auth required)
+- `GET /api/bookmarks/top` - Get top bookmarks (cached, auth required)
+
+### 12.3 Features Implemented
+
+✅ **Database Schema**: User and Bookmark models with Prisma  
+✅ **Authentication**: Simple header-based auth for demo (`x-user-email`)  
+✅ **Rate Limiting**: 5 requests per minute per user  
+✅ **Redis Caching**: Top bookmarks cached for 60 seconds with invalidation  
+✅ **Feature Flag**: `CACHE_ENABLED` to disable Redis cleanly  
+✅ **Structured Logging**: Request ID, user ID, operation, latency  
+✅ **URL Validation**: Prevents invalid/dangerous URLs  
+✅ **Responsive UI**: Form to add bookmarks, lists for user/top bookmarks  
+
+### 12.4 Testing
+
+```bash
+# Run unit tests
+npm run test
+
+# Run unit tests with UI
+npm run test:ui
+
+# Run E2E tests
+npm run e2e
+
+# Run linting
+npm run lint
+```
+
+### 12.5 Architecture Decisions
+
+- **Rate Limiting**: Sliding window using Redis sorted sets, with database fallback
+- **Caching**: Redis with 60-second TTL, invalidated on bookmark creation
+- **Authentication**: Simplified header-based auth for demo purposes
+- **Error Handling**: Proper HTTP status codes and retry-after headers
+- **Logging**: Structured JSON logging for observability
+
+---
+
+## 13. Prompt to test
 
 ```markdown
 === GOAL ===
